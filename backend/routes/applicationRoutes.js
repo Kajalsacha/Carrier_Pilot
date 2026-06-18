@@ -2,13 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const authMiddleware = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
 const {
   createApplication,getApplications, updateApplication,getStats,
-  deleteApplication
+  deleteApplication,replaceResume
 } = require("../controllers/applicationController");
 
-router.post("/",authMiddleware,createApplication);
+router.post("/",authMiddleware, upload.single("resume"),createApplication);
 router.get("/",authMiddleware,getApplications);
 
 router.get("/stats",authMiddleware,getStats);
@@ -23,6 +24,13 @@ router.delete(
   "/:id",
   authMiddleware,
   deleteApplication
+);
+
+router.put(
+  "/:id/resume",
+  authMiddleware,
+  upload.single("resume"),
+  replaceResume
 );
 
 

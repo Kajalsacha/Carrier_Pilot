@@ -24,6 +24,11 @@ const applicationSchema = new mongoose.Schema(
       default: "Applied"
     },
 
+    resume:{
+   type:String,
+   default:""
+},
+
     appliedDate: {
       type: Date,
       default: Date.now

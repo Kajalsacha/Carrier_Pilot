@@ -1,17 +1,23 @@
 const Application = require("../models/Application");
+const fs = require("fs");
+const path = require("path");
 
 const createApplication = async (req, res) => {
   try {
 
     const { companyName, role, status } = req.body;
 
-    const application = await Application.create({
-      companyName,
-      role,
-      status,
-      user: req.user.id
-    });
+    let resume = "";
 
+    if(req.file){ resume = req.file.filename;}
+
+   const application = await Application.create({
+  companyName,
+  role,
+  status,
+  resume,
+  user: req.user.id
+});
     res.status(201).json(application);
 
   } catch (error) {
@@ -162,7 +168,56 @@ const deleteApplication = async (req, res) => {
   }
 };
 
+
+const replaceResume = async (req, res) => {
+  try {
+
+    const application = await Application.findById(
+      req.params.id
+    );
+
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found"
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Please upload a resume"
+      });
+    }
+
+    if (application.resume) {
+
+      const oldResumePath = path.join(
+        __dirname,
+        "../uploads",
+        application.resume
+      );
+
+      if (fs.existsSync(oldResumePath)) {
+        fs.unlinkSync(oldResumePath);
+      }
+    }
+
+    application.resume = req.file.filename;
+
+    await application.save();
+
+    res.status(200).json({
+      message: "Resume Updated Successfully",
+      application
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
-  createApplication,getApplications,updateApplication,getStats,
-  deleteApplication
+  createApplication,getApplications,updateApplication,getStats,deleteApplication
+  ,replaceResume
 };
