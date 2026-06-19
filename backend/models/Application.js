@@ -29,6 +29,11 @@ const applicationSchema = new mongoose.Schema(
    default:""
 },
 
+resumeText: {
+   type: String,
+   default: ""
+},
+
     appliedDate: {
       type: Date,
       default: Date.now

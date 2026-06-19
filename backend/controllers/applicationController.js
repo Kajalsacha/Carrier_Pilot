@@ -1,24 +1,35 @@
 const Application = require("../models/Application");
+const extractResumeText =require("../utils/extractResumeText");
 const fs = require("fs");
 const path = require("path");
 
 const createApplication = async (req, res) => {
   try {
+const { companyName, role, status } = req.body;
 
-    const { companyName, role, status } = req.body;
+let resume = "";
+let resumeText = "";
 
-    let resume = "";
+if(req.file){ 
+  resume = req.file.filename;
+ 
+  resumeText = await extractResumeText(
+     req.file.path
+  );
+}
 
-    if(req.file){ resume = req.file.filename;}
 
-   const application = await Application.create({
+
+const application = await Application.create({
   companyName,
   role,
   status,
   resume,
+  resumeText,
   user: req.user.id
 });
-    res.status(201).json(application);
+
+res.status(201).json(application);
 
   } catch (error) {
     res.status(500).json({
@@ -172,9 +183,7 @@ const deleteApplication = async (req, res) => {
 const replaceResume = async (req, res) => {
   try {
 
-    const application = await Application.findById(
-      req.params.id
-    );
+    const application = await Application.findById(req.params.id);
 
     if (!application) {
       return res.status(404).json({
@@ -203,6 +212,8 @@ const replaceResume = async (req, res) => {
 
     application.resume = req.file.filename;
 
+    application.resumeText =await extractResumeText(req.file.path);
+    
     await application.save();
 
     res.status(200).json({
