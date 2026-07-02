@@ -1,19 +1,38 @@
-function StatusFilter() {
+function StatusFilter({
+  status,
+  setStatus,
+}) {
   return (
     <select
+      value={status}
+      onChange={(e) =>
+        setStatus(e.target.value)
+      }
       className="rounded-xl border border-[#2F2F2F] bg-[#1A1A1A] px-5 text-white outline-none"
     >
-      <option value="">All Status</option>
+      <option value="">
+        All Status
+      </option>
 
-      <option>Applied</option>
+      <option value="Applied">
+        Applied
+      </option>
 
-      <option>OA</option>
+      <option value="OA">
+        OA
+      </option>
 
-      <option>Interview</option>
+      <option value="Interview">
+        Interview
+      </option>
 
-      <option>Offer</option>
+      <option value="Offer">
+        Offer
+      </option>
 
-      <option>Rejected</option>
+      <option value="Rejected">
+        Rejected
+      </option>
 
     </select>
   );

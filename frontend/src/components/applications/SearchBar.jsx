@@ -1,6 +1,9 @@
 import { Search } from "lucide-react";
 
-function SearchBar() {
+function SearchBar({
+  searchCompany,
+  setSearchCompany,
+}) {
   return (
     <div className="relative w-full">
 
@@ -12,6 +15,10 @@ function SearchBar() {
       <input
         type="text"
         placeholder="Search company..."
+        value={searchCompany}
+        onChange={(e) =>
+          setSearchCompany(e.target.value)
+        }
         className="w-full rounded-xl border border-[#2F2F2F] bg-[#1A1A1A] py-3 pl-11 pr-4 text-white outline-none focus:border-white"
       />
 

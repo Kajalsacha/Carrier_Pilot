@@ -8,21 +8,26 @@ import { getApplications } from "../../services/applicationService";
 
 function Applications() {
   const [applications, setApplications] = useState([]);
+  const [searchCompany, setSearchCompany] = useState("");
+  const [status, setStatus] = useState("");
 
-  useEffect(() => {
+useEffect(() => {
     fetchApplications();
-  }, []);
+}, [searchCompany, status]);
 
   const fetchApplications = async () => {
-    try {
-      const data = await getApplications();
+  try {
+    const data = await getApplications(
+      searchCompany,
+      status
+    );
 
-      setApplications(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    setApplications(data);
 
+  } catch (error) {
+    console.log(error);
+  }
+};
   return (
     <div>
 
@@ -44,10 +49,15 @@ function Applications() {
 
       <div className="mt-10 flex gap-4">
 
-        <SearchBar />
+       <SearchBar
+  searchCompany={searchCompany}
+  setSearchCompany={setSearchCompany}
+/>
 
-        <StatusFilter />
-
+<StatusFilter
+  status={status}
+  setStatus={setStatus}
+/>
       </div>
 
       <div className="mt-8">
