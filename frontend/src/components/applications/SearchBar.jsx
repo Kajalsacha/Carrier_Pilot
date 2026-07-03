@@ -9,7 +9,7 @@ function SearchBar({
 
       <Search
         size={18}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8E8E8E]"
+        className="absolute left-4 top-1/2 -translate-y-1/2 text-[#888888]"
       />
 
       <input

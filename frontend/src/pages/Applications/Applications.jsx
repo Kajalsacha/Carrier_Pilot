@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "../../components/applications/SearchBar";
 import StatusFilter from "../../components/applications/StatusFilter";
 import ApplicationTable from "../../components/applications/ApplicationTable";
+import AddApplicationModal from "../../components/applications/AddApplicationModal";
 
 import { getApplications } from "../../services/applicationService";
 
@@ -11,25 +12,28 @@ function Applications() {
   const [searchCompany, setSearchCompany] = useState("");
   const [status, setStatus] = useState("");
 
-useEffect(() => {
+  useEffect(() => {
     fetchApplications();
-}, [searchCompany, status]);
+  }, [searchCompany, status]);
 
   const fetchApplications = async () => {
-  try {
-    const data = await getApplications(
-      searchCompany,
-      status
-    );
+    try {
+      const data = await getApplications(
+        searchCompany,
+        status
+      );
 
-    setApplications(data);
+      setApplications(data);
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div>
+    <div className="w-full">
+
+      {/* Header */}
 
       <div className="flex items-center justify-between">
 
@@ -40,30 +44,42 @@ useEffect(() => {
           </h1>
 
           <p className="mt-2 text-[#8E8E8E]">
-            Manage and track all your job applications.
+            Manage all your job applications.
           </p>
 
         </div>
 
+        {/* Add Button */}
+
+        <AddApplicationModal
+          fetchApplications={fetchApplications}
+        />
+
       </div>
 
-      <div className="mt-10 flex gap-4">
+      {/* Search & Filter */}
 
-       <SearchBar
-  searchCompany={searchCompany}
-  setSearchCompany={setSearchCompany}
-/>
+      <div className="mt-8 flex flex-col gap-4 md:flex-row">
 
-<StatusFilter
-  status={status}
-  setStatus={setStatus}
-/>
+        <SearchBar
+          searchCompany={searchCompany}
+          setSearchCompany={setSearchCompany}
+        />
+
+        <StatusFilter
+          status={status}
+          setStatus={setStatus}
+        />
+
       </div>
+
+      {/* Table */}
 
       <div className="mt-8">
 
         <ApplicationTable
           applications={applications}
+          fetchApplications={fetchApplications}
         />
 
       </div>

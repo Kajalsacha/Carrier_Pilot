@@ -1,174 +1,254 @@
-# CareerPilot 🚀
+# 🚀 CareerPilot
 
-CareerPilot is a full-stack MERN application designed to help students and job seekers efficiently manage their job search journey. The platform allows users to track job applications, monitor recruitment progress, analyze application statistics, and will soon provide AI-powered resume analysis and interview preparation tools.
-
----
-
-## ✨ Features
-
-### 🔐 Authentication & Security
-
-* User Registration
-* User Login
-* JWT Authentication
-* Protected Routes
-* Secure User-Specific Data Access
-
-### 📋 Job Application Management
-
-* Add New Applications
-* View All Applications
-* Delete Applications
-* Track Recruitment Stages
-
-### 📊 Dashboard Analytics
-
-* Applied Applications Count
-* Online Assessment (OA) Count
-* Interview Count
-* Rejected Applications Count
-* Offer Count
-
-### 🔍 Advanced Backend Features
-
-* Search Applications
-* Filter Applications
-* Pagination Support
-* User-Based Data Isolation
+CareerPilot is a full-stack AI-powered MERN application that helps students and job seekers manage their job search efficiently. It allows users to track job applications, upload resumes, analyze resumes using AI, generate personalized learning roadmaps, and visualize application progress through analytics.
 
 ---
 
-## 🚧 Upcoming Features
+# ✨ Features
 
-### 📄 Resume Management
+## 🔐 Authentication
 
-* Resume Upload
-* PDF Resume Parsing
-* Resume Storage
-
-### 🤖 AI Features
-
-* ATS Score Analysis
-* Resume Review & Feedback
-* Missing Skills Detection
-* Job Match Scoring
-* Interview Question Generator
-* Career Insights & Recommendations
+- User Registration
+- User Login
+- JWT Authentication
+- Protected Routes
+- User-specific Data Isolation
 
 ---
 
-## 🛠️ Tech Stack
+## 📋 Job Application Management
 
-### Frontend
-
-* React.js
-* React Router DOM
-* Axios
-* Vite
-
-### Backend
-
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* JWT Authentication
-* Bcrypt.js
-
-### Future Integrations
-
-* OpenAI / Gemini API
-* Multer
-* PDF Parser
+- Add New Application
+- Delete Application
+- View All Applications
+- Search Applications
+- Filter Applications
+- Update Application Status
+- View Uploaded Resume
+- Professional Status Badges
+- Resume Upload (PDF)
 
 ---
 
-## 📂 Project Structure
+## 📄 Resume Management
 
-```bash
+- Upload Resume (PDF)
+- Replace Existing Resume
+- Resume Text Extraction
+- PDF Parsing using pdf-parse
+
+---
+
+## 🤖 AI Features
+
+- ATS Resume Analysis
+- AI Resume Feedback
+- Skill Gap Detection
+- Resume Improvement Suggestions
+- Career Advice
+- AI Learning Roadmap Generation
+- Download AI Roadmap as PDF
+
+---
+
+## 📊 Dashboard & Analytics
+
+- Total Applications
+- Applied Count
+- OA Count
+- Interview Count
+- Offer Count
+- Rejected Count
+- Interactive Pie Chart
+- Dashboard Statistics Cards
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+- React.js
+- Vite
+- React Router DOM
+- Axios
+- Tailwind CSS
+- Lucide React
+- React Hot Toast
+- Recharts
+
+---
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- bcrypt.js
+- Multer
+- pdf-parse
+- Groq AI API
+
+---
+
+# 📂 Project Structure
+
+```text
 CareerPilot/
-│
+
 ├── backend/
 │   ├── config/
 │   ├── controllers/
 │   ├── middleware/
 │   ├── models/
 │   ├── routes/
+│   ├── uploads/
+│   ├── utils/
 │   └── server.js
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   └── components/
-│   └── vite.config.js
+│   │
+│   ├── components/
+│   │   ├── applications/
+│   │   ├── dashboard/
+│   │   └── layout/
+│   │
+│   ├── pages/
+│   │   ├── Login/
+│   │   ├── Register/
+│   │   ├── Dashboard/
+│   │   ├── Applications/
+│   │   ├── Analytics/
+│   │   ├── Roadmaps/
+│   │   ├── Chat/
+│   │   └── Profile/
+│   │
+│   ├── services/
+│   ├── context/
+│   ├── layouts/
+│   ├── routes/
+│   ├── App.jsx
+│   └── main.jsx
 │
 └── README.md
 ```
 
 ---
 
-## 📸 Current Workflow
+# 📸 Current Workflow
 
 ```text
 Register
-   ↓
+      │
+      ▼
 Login
-   ↓
+      │
+      ▼
 Dashboard
-   ↓
-View Applications
-   ↓
-Add Application
-   ↓
-Delete Application
+      │
+      ▼
+Track Applications
+      │
+      ├──────────────┐
+      ▼              ▼
+Upload Resume    Update Status
+      │              │
+      └──────┬───────┘
+             ▼
+ATS Analysis
+             ▼
+Generate AI Roadmap
+             ▼
+Download Roadmap PDF
 ```
 
 ---
 
-## 🎯 Project Goal
+# 🎯 Project Goals
 
-The goal of CareerPilot is to become an AI-powered career assistant that helps users:
+CareerPilot aims to become a complete AI-powered career assistant that helps users:
 
-* Organize job applications
-* Track recruitment progress
-* Improve resume quality
-* Increase ATS compatibility
-* Prepare for interviews
-* Make data-driven career decisions
-
----
-
-## 👨‍💻 Author
-
-**Kajal**
-
-Full-Stack Developer | MERN Stack Enthusiast
+- Track job applications
+- Organize recruitment progress
+- Upload and manage resumes
+- Improve ATS compatibility
+- Identify missing skills
+- Generate personalized learning roadmaps
+- Visualize application progress
+- Prepare for technical interviews
 
 ---
 
-## 📌 Project Status
+# 🚧 Upcoming Features
 
-Current Progress: **~60% Complete**
+- AI Mentor Chat
+- Profile Management
+- Responsive UI Improvements
+- Final UI Polish
+- Project Deployment
 
-Completed:
+---
 
-* Authentication Module
-* Application Tracking Module
-* Dashboard Analytics
-* Frontend Integration
+# 👨‍💻 Author
 
-In Progress:
+**Kajal Sachan**
 
-* UI Improvements
-* Update Application Feature
-* Search & Filter UI
+B.Tech CSE (AI) | MERN Stack Developer
 
-Planned:
 
-* Resume Module
-* AI Features
-* Deployment
+---
 
-```
-```
+# 📌 Project Status
+
+## Backend
+
+✅ Authentication
+
+✅ Applications CRUD
+
+✅ Resume Upload & Replace
+
+✅ Resume Parsing
+
+✅ ATS Analysis
+
+✅ AI Roadmap Generation
+
+✅ Roadmap PDF Export
+
+✅ Analytics APIs
+
+---
+
+## Frontend
+
+✅ Authentication
+
+✅ Dashboard
+
+✅ Analytics
+
+✅ Applications Module
+
+- Add Application
+- Delete Application
+- Search
+- Filter
+- Update Status
+- View Resume
+- Professional Status Badges
+
+---
+
+## In Progress
+
+- AI Roadmaps UI
+- AI Mentor Chat
+- Profile Page
+- Responsive Design
+- Final UI Polish
+
+---

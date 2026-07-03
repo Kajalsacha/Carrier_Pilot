@@ -10,6 +10,7 @@ function StatusFilter({
       }
       className="rounded-xl border border-[#2F2F2F] bg-[#1A1A1A] px-5 text-white outline-none"
     >
+
       <option value="">
         All Status
       </option>

@@ -45,7 +45,7 @@ const getApplications = async (req, res) => {
       Number(req.query.page) || 1;
 
     const limit =
-      Number(req.query.limit) || 5;
+      Number(req.query.limit) || 100;
 
     const skip =
       (page - 1) * limit;
@@ -59,13 +59,17 @@ const getApplications = async (req, res) => {
     }
 
     if (req.query.company) {
-      query.companyName = req.query.company;
+      query.companyName = {
+  $regex: req.query.company,
+  $options: "i",
+};
     }
 
     const applications =
-      await Application.find(query)
-        .skip(skip)
-        .limit(limit);
+  await Application.find(query)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
 
     res.status(200).json(applications);
 
