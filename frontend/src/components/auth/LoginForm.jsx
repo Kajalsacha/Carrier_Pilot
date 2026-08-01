@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
+import toast from "react-hot-toast";
 import { loginUser } from "../../services/authService";
 import { useAuth } from "../../context/AuthContext";
-import toast from "react-hot-toast";
-
-
+import Input from "../common/Input";
+import Button from "../common/Button";
 
 const loginSchema = z.object({
   email: z
@@ -21,125 +23,100 @@ const loginSchema = z.object({
 
 function LoginForm() {
   const navigate = useNavigate();
-  const { login } = useAuth();   
+  const { login } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data) => {
-  try {
-    const response = await loginUser(data);
+    try {
+      const response = await loginUser(data);
 
-    login(response.token);
+      login(response.token);
 
-    toast.success(response.message);
+      toast.success(response.message);
 
-    navigate("/dashboard");
-  } catch (error) {
-    toast.error(
-      error.response?.data?.message || "Login Failed"
-    );
-  }
-};
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Login Failed");
+    }
+  };
 
   return (
     <div className="w-full max-w-md">
-
-      <h1 className="text-5xl font-bold text-white">
-        Welcome Back
+      <h1 className="text-3xl font-semibold tracking-tight text-[#1F2937]">
+        Welcome back
       </h1>
 
-      <p className="mt-4 leading-7 text-[#888888]">
-        Track your applications, analyze your resume using AI and
+      <p className="mt-2 text-[15px] leading-6 text-[#9CA3AF]">
+        Track your applications, analyze your resume with AI and
         accelerate your career.
       </p>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="mt-12 space-y-6"
-      >
-        {/* Email */}
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-5">
+        <Input
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          autoComplete="email"
+          {...register("email")}
+          error={errors.email?.message}
+        />
 
-        <div>
-          <label className="mb-2 block text-sm text-[#E0E0E0]">
-            Email
-          </label>
-
-          <input
-            type="email"
-            placeholder="Enter your email"
-            {...register("email")}
-            className="w-full rounded-xl border border-[#2C2C2C] bg-[#1A1A1A] px-5 py-4 text-white outline-none transition-all focus:border-white"
-          />
-
-          {errors.email && (
-            <p className="mt-2 text-sm text-red-400">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        {/* Password */}
-
-        <div>
-          <label className="mb-2 block text-sm text-[#E0E0E0]">
-            Password
-          </label>
-
-          <input
-            type="password"
+        <div className="relative">
+          <Input
+            label="Password"
+            type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
+            autoComplete="current-password"
             {...register("password")}
-            className="w-full rounded-xl border border-[#2C2C2C] bg-[#1A1A1A] px-5 py-4 text-white outline-none transition-all focus:border-white"
+            error={errors.password?.message}
           />
 
-          {errors.password && (
-            <p className="mt-2 text-sm text-red-400">
-              {errors.password.message}
-            </p>
-          )}
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-3.5 top-9.5 text-[#9CA3AF] hover:text-[#6B7280]"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
         </div>
 
-        {/* Remember + Forgot */}
-
-        <div className="flex items-center justify-between">
-          <label className="flex items-center gap-2 text-sm text-[#888888]">
-            <input type="checkbox" />
+        <div className="flex items-center justify-between text-sm">
+          <label className="flex items-center gap-2 text-[#6B7280]">
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded border-[#E8EDF3] text-[#23364D] focus:ring-[#23364D]"
+            />
             Remember me
           </label>
 
           <button
             type="button"
-            className="text-sm text-[#888888] transition hover:text-white"
+            className="font-medium text-[#9CA3AF] transition hover:text-[#6B7280]"
           >
-            Forgot Password?
+            Forgot password?
           </button>
         </div>
 
-        {/* Submit */}
+        <Button type="submit" size="lg" loading={isSubmitting} className="w-full">
+          Sign in
+        </Button>
 
-        <button
-          type="submit"
-          className="w-full rounded-xl bg-[#E0E0E0] py-4 font-semibold text-[#121212] transition hover:bg-white"
-        >
-          Sign In
-        </button>
-
-        {/* Register */}
-
-        <p className="text-center text-[#888888]">
-          Don't have an account?
-
+        <p className="text-center text-sm text-[#9CA3AF]">
+          Don&apos;t have an account?
           <Link
             to="/register"
-            className="ml-2 font-medium text-white hover:underline"
+            className="ml-1.5 font-medium text-[#23364D] hover:text-[#1A2838]"
           >
-            Register
+            Sign up
           </Link>
         </p>
       </form>

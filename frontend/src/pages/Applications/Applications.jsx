@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 import SearchBar from "../../components/applications/SearchBar";
 import StatusFilter from "../../components/applications/StatusFilter";
@@ -11,6 +12,7 @@ function Applications() {
   const [applications, setApplications] = useState([]);
   const [searchCompany, setSearchCompany] = useState("");
   const [status, setStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchApplications();
@@ -18,15 +20,13 @@ function Applications() {
 
   const fetchApplications = async () => {
     try {
-      const data = await getApplications(
-        searchCompany,
-        status
-      );
+      const data = await getApplications(searchCompany, status);
 
       setApplications(data);
-
     } catch (error) {
-      console.log(error);
+      toast.error("Failed to load applications");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -35,53 +35,43 @@ function Applications() {
 
       {/* Header */}
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
         <div>
-
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-3xl font-semibold tracking-tight text-[#1F2937]">
             Applications
           </h1>
 
-          <p className="mt-2 text-[#8E8E8E]">
+          <p className="mt-1.5 text-[#9CA3AF]">
             Manage all your job applications.
           </p>
-
         </div>
 
         {/* Add Button */}
 
-        <AddApplicationModal
-          fetchApplications={fetchApplications}
-        />
+        <AddApplicationModal fetchApplications={fetchApplications} />
 
       </div>
 
       {/* Search & Filter */}
 
       <div className="mt-8 flex flex-col gap-4 md:flex-row">
-
         <SearchBar
           searchCompany={searchCompany}
           setSearchCompany={setSearchCompany}
         />
 
-        <StatusFilter
-          status={status}
-          setStatus={setStatus}
-        />
-
+        <StatusFilter status={status} setStatus={setStatus} />
       </div>
 
       {/* Table */}
 
-      <div className="mt-8">
-
+      <div className="mt-6">
         <ApplicationTable
           applications={applications}
           fetchApplications={fetchApplications}
+          isLoading={isLoading}
         />
-
       </div>
 
     </div>

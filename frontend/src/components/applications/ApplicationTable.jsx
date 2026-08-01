@@ -1,66 +1,63 @@
+import { Inbox } from "lucide-react";
 import ApplicationRow from "./ApplicationRow";
+import Card from "../common/Card";
+import { Skeleton } from "../common/Loader";
+import EmptyState from "../common/EmptyState";
 
-function ApplicationTable({
-  applications,
-  fetchApplications,
-  onStatusUpdated,
-}) {
+const COLUMNS = ["Company", "Role", "Status", "Applied", "Actions"];
+
+function ApplicationTable({ applications, fetchApplications, isLoading }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#2F2F2F] bg-[#181818]">
-      <table className="w-full">
-        {/* Table Header */}
-        <thead className="bg-[#202020]">
-          <tr>
-            <th className="px-6 py-5 text-left text-sm font-semibold text-[#BBBBBB]">
-              Company
-            </th>
-
-            <th className="text-left text-sm font-semibold text-[#BBBBBB]">
-              Role
-            </th>
-
-            <th className="text-left text-sm font-semibold text-[#BBBBBB]">
-              Status
-            </th>
-
-            <th className="text-left text-sm font-semibold text-[#BBBBBB]">
-              Applied
-            </th>
-
-            <th className="text-center text-sm font-semibold text-[#BBBBBB]">
-              Resume
-            </th>
-
-            <th className="text-center text-sm font-semibold text-[#BBBBBB]">
-              Actions
-            </th>
-          </tr>
-        </thead>
-
-        {/* Table Body */}
-        <tbody>
-          {applications.length > 0 ? (
-            applications.map((application) => (
-              <ApplicationRow
-                key={application._id}
-                application={application}
-                fetchApplications={fetchApplications}
-                onStatusUpdated={onStatusUpdated}
-              />
-            ))
-          ) : (
+    <Card className="overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-[#F8FAFC]">
             <tr>
-              <td
-                colSpan="6"
-                className="py-16 text-center text-[#777777]"
-              >
-                No Applications Found
-              </td>
+              {COLUMNS.map((column) => (
+                <th
+                  key={column}
+                  className="whitespace-nowrap px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-[#9CA3AF]"
+                >
+                  {column}
+                </th>
+              ))}
             </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+
+          <tbody className="divide-y divide-[#E8EDF3]">
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, index) => (
+                <tr key={index}>
+                  {COLUMNS.map((column) => (
+                    <td key={column} className="px-6 py-5">
+                      <Skeleton className="h-4 w-full max-w-24" />
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : applications.length > 0 ? (
+              applications.map((application) => (
+                <ApplicationRow
+                  key={application._id}
+                  application={application}
+                  fetchApplications={fetchApplications}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={COLUMNS.length}>
+                  <EmptyState
+                    icon={Inbox}
+                    title="No applications found"
+                    description="Add your first application to start tracking it here."
+                  />
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </Card>
   );
 }
 

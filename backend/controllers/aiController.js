@@ -2,7 +2,14 @@ const Roadmap = require("../models/Roadmap");
 const { generateRoadmapPDF } = require("../utils/pdfGenerator");
 
 
-const { generateRoadmapAI} = require("../services/groqService");
+const Application = require("../models/Application");
+
+const {
+  generateRoadmapAI,
+  analyzeATSAI,
+} = require("../services/groqService");
+
+
 
 const generateRoadmap = async (req, res) => {
   console.log("Controller Started");
@@ -63,6 +70,48 @@ res.status(201).json(savedRoadmap);
 
   }
 
+};
+
+
+
+
+const analyzeATS = async (req, res) => {
+  try {
+    const { jobDescription } = req.body;
+
+    const application = await Application.findOne({
+      _id: req.params.applicationId,
+      user: req.user.id,
+    });
+
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found",
+      });
+    }
+
+    if (!application.resumeText) {
+      return res.status(400).json({
+        message: "Resume text not found. Please upload a resume first.",
+      });
+    }
+
+    const result = await analyzeATSAI(
+      application.resumeText,
+      jobDescription
+    );
+
+    res.status(200).json(result);
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
 };
 
 
@@ -181,8 +230,13 @@ const downloadRoadmapPDF = async (req, res) => {
 
     const roadmap = await Roadmap.findById(req.params.id);
 
-    console.log(roadmap);   // 👈 Add this
-
+    console.log(
+  JSON.stringify(
+    roadmap.roadmap,
+    null,
+    2
+  )
+);
     generateRoadmapPDF(roadmap, res);
 
   } catch (error) {
@@ -199,5 +253,10 @@ const downloadRoadmapPDF = async (req, res) => {
 
 
 module.exports = {
-  generateRoadmap,getRoadmaps,getRoadmapById,deleteRoadmap,downloadRoadmapPDF
+  generateRoadmap,
+  analyzeATS,
+  getRoadmaps,
+  getRoadmapById,
+  deleteRoadmap,
+  downloadRoadmapPDF,
 };

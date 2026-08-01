@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Applications from "./pages/Applications/Applications";
 import Analytics from "./pages/Analytics/Analytics";
 import Roadmaps from "./pages/Roadmaps/Roadmaps";
+import RoadmapProgress from "./pages/RoadmapProgress/RoadmapProgress";
 import MentorChat from "./pages/Chat/MentorChat";
 import Profile from "./pages/Profile/Profile";
 
@@ -40,6 +41,8 @@ function App() {
           <Route path="/analytics" element={<Analytics />} />
 
           <Route path="/roadmaps" element={<Roadmaps />} />
+
+          <Route path="/roadmaps/:id" element={<RoadmapProgress />} />
 
           <Route path="/chat" element={<MentorChat />} />
 

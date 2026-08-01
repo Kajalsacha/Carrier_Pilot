@@ -1,19 +1,25 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
 
 function MainLayout() {
-  return (
-    <div className="flex min-h-screen bg-[#121212]">
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-      <Sidebar />
+  return (
+    <div className="flex min-h-screen bg-[#F7F8FC]">
+
+      <Sidebar
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
 
       <div className="flex flex-1 flex-col">
 
-        <Navbar />
+        <Navbar onMenuClick={() => setIsMobileMenuOpen(true)} />
 
-        <main className="flex-1 overflow-y-auto p-8">
+        <main className="flex-1 overflow-y-auto p-6 lg:p-8">
 
           <Outlet />
 

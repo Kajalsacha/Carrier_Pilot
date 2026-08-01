@@ -42,3 +42,16 @@ export const addApplication = async (formData) => {
 
 
 
+export const analyzeATS = async (applicationId, jobDescription) => {
+  const response = await api.post(
+    `/ai/ats/${applicationId}`,
+    {
+      jobDescription,
+    }
+  );
+
+  return response.data;
+};
+
+
+

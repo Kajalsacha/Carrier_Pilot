@@ -6,6 +6,8 @@ import {
   MessageSquare,
   User,
   LogOut,
+  Compass,
+  X,
 } from "lucide-react";
 
 import { NavLink, useNavigate } from "react-router-dom";
@@ -44,7 +46,7 @@ const menuItems = [
   },
 ];
 
-function Sidebar() {
+function Sidebar({ isOpen, onClose }) {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -54,62 +56,95 @@ function Sidebar() {
   };
 
   return (
-    <aside className="flex h-screen w-72 flex-col border-r border-[#2C2C2C] bg-[#121212]">
+    <>
+      {/* Mobile backdrop */}
 
-      {/* Logo */}
+      {isOpen && (
+        <div
+          onClick={onClose}
+          aria-hidden="true"
+          className="fixed inset-0 z-40 bg-black/30 lg:hidden"
+        />
+      )}
 
-      <div className="border-b border-[#2C2C2C] p-6">
-        <h1 className="text-2xl font-bold text-white">
-          CareerPilot
-        </h1>
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 flex h-screen w-72 flex-col bg-[#1E2A3B] transition-transform duration-200 lg:static lg:translate-x-0 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
 
-        <p className="mt-1 text-sm text-[#888888]">
-          AI Job Application Tracker
-        </p>
-      </div>
+        {/* Logo */}
 
-      {/* Menu */}
+        <div className="flex items-center justify-between gap-2 border-b border-white/10 p-6">
+          <div className="flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#32475B]">
+              <Compass className="h-4.5 w-4.5 text-white" />
+            </span>
 
-      <nav className="flex-1 p-4">
+            <div>
+              <h1 className="text-base font-semibold text-white">
+                CareerPilot
+              </h1>
 
-        {menuItems.map((item) => {
-          const Icon = item.icon;
+              <p className="text-xs text-white/50">
+                AI Job Application Tracker
+              </p>
+            </div>
+          </div>
 
-          return (
-            <NavLink
-              key={item.title}
-              to={item.path}
-              className={({ isActive }) =>
-                `mb-2 flex items-center gap-3 rounded-xl px-4 py-3 transition ${
-                  isActive
-                    ? "bg-[#E0E0E0] text-[#121212]"
-                    : "text-[#B0B0B0] hover:bg-[#1A1A1A] hover:text-white"
-                }`
-              }
-            >
-              <Icon size={20} />
+          <button
+            onClick={onClose}
+            aria-label="Close menu"
+            className="text-white/50 hover:text-white lg:hidden"
+          >
+            <X size={20} />
+          </button>
+        </div>
 
-              <span>{item.title}</span>
-            </NavLink>
-          );
-        })}
-      </nav>
+        {/* Menu */}
 
-      {/* Logout */}
+        <nav className="flex-1 space-y-1 p-4">
 
-      <div className="border-t border-[#2C2C2C] p-4">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
 
-        <button
-          onClick={handleLogout}
-          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[#B0B0B0] transition hover:bg-[#1A1A1A] hover:text-white"
-        >
-          <LogOut size={20} />
+            return (
+              <NavLink
+                key={item.title}
+                to={item.path}
+                onClick={onClose}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition ${
+                    isActive
+                      ? "bg-[#32475B] text-white"
+                      : "text-white/60 hover:bg-[#2C3E50] hover:text-white"
+                  }`
+                }
+              >
+                <Icon size={20} />
 
-          Logout
-        </button>
+                <span>{item.title}</span>
+              </NavLink>
+            );
+          })}
+        </nav>
 
-      </div>
-    </aside>
+        {/* Logout */}
+
+        <div className="border-t border-white/10 p-4">
+
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-white/60 transition hover:bg-[#2C3E50] hover:text-white"
+          >
+            <LogOut size={20} />
+
+            Logout
+          </button>
+
+        </div>
+      </aside>
+    </>
   );
 }
 

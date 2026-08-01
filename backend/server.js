@@ -12,6 +12,7 @@ const applicationRoutes = require("./routes/applicationRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const chatRoutes = require("./routes/chatRoutes");
+const weekRoutes = require("./routes/weekRoutes");
 
 
 connectDB();
@@ -33,11 +34,16 @@ app.use("/api/applications", applicationRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/chat", chatRoutes);
-
+app.use("/api/week", weekRoutes);
+app.post("/test", (req, res) => {
+  console.log("TEST ROUTE HIT");
+  res.json({ success: true });
+});
 
 app.get("/", (req, res) => {
   res.send("CareerPilot API Running");
 });
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
