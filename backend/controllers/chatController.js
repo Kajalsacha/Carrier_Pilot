@@ -6,34 +6,43 @@ const askQuestion = async (req, res) => {
 
   try {
 
-    const { roadmapId, question } = req.body;
+    const { message } = req.body;
 
-    const roadmap = await Roadmap.findById(req.params.id);;
+    // Context-aware mentor: use the user's most recent roadmap instead of
+    // requiring the frontend to track/pass a roadmapId.
+    const roadmap = await Roadmap.findOne({
+      user: req.user.id
+    }).sort({
+      createdAt: -1
+    });
 
     if (!roadmap) {
-      return res.status(404).json({
-        message: "Roadmap not found"
+      return res.status(400).json({
+        message: "Generate a roadmap first so your AI Mentor can give personalized guidance."
       });
     }
 
+    const recentChats = await Chat.find({
+      user: req.user.id,
+      roadmap: roadmap._id
+    })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
     const answer = await askCareerMentor(
-      roadmap.roadmap,
-      question
+      roadmap,
+      recentChats.reverse(),
+      message
     );
 
-    const chat = await Chat.create({
-
+    await Chat.create({
       user: req.user.id,
-
-      roadmap: roadmapId,
-
-      question,
-
+      roadmap: roadmap._id,
+      question: message,
       answer
-
     });
 
-    res.status(201).json(chat);
+    res.status(201).json({ reply: answer });
 
   } catch (error) {
 

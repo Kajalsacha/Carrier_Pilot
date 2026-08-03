@@ -8,7 +8,7 @@ function MainLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#F7F8FC]">
+    <div className="flex h-screen overflow-hidden bg-[#F7F8FC]">
 
       <Sidebar
         isOpen={isMobileMenuOpen}

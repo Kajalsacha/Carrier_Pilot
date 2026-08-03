@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 
 import ChatInput from "../../components/chat/ChatInput";
 import ChatMessages from "../../components/chat/ChatMessages";
+import QuickActions from "../../components/chat/QuickActions";
 
 import { sendMessage } from "../../services/chatService";
 
@@ -24,25 +25,31 @@ function MentorChat() {
 
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
-      toast.error("Failed to get a response from your AI mentor");
+      toast.error(
+        error.response?.data?.message || "Failed to get a response from your AI mentor"
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex h-[80vh] flex-col rounded-2xl border border-[#E8EDF3] bg-white shadow-sm">
-      <div className="border-b border-[#E8EDF3] p-6">
-        <h1 className="text-xl font-semibold text-[#1F2937]">AI Mentor</h1>
+    <div>
+      <QuickActions onSelect={handleSend} />
 
-        <p className="mt-1 text-sm text-[#9CA3AF]">
-          Ask anything about DSA, Web Development, Resume, Interviews, or Career.
-        </p>
+      <div className="flex h-[75vh] flex-col rounded-2xl border border-[#E8EDF3] bg-white shadow-sm">
+        <div className="border-b border-[#E8EDF3] p-6">
+          <h1 className="text-xl font-semibold text-[#1F2937]">AI Mentor</h1>
+
+          <p className="mt-1 text-sm text-[#9CA3AF]">
+            Ask anything about DSA, Web Development, Resume, Interviews, or Career.
+          </p>
+        </div>
+
+        <ChatMessages messages={messages} loading={loading} onSend={handleSend} />
+
+        <ChatInput onSend={handleSend} loading={loading} />
       </div>
-
-      <ChatMessages messages={messages} loading={loading} onSend={handleSend} />
-
-      <ChatInput onSend={handleSend} loading={loading} />
     </div>
   );
 }

@@ -146,7 +146,7 @@ function Dashboard() {
 
       {/* Charts */}
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
         {isLoading ? (
           <>
             <Skeleton className="h-96 rounded-2xl" />
@@ -162,7 +162,7 @@ function Dashboard() {
 
       {/* Recent Applications */}
 
-      <div className="mt-6">
+      <div className="mt-8">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-[#1F2937]">Recent Applications</h2>
 

@@ -55,7 +55,13 @@ function StatCard({ title, value, suffix = "", subtitle, trend, progressPercent 
 
       <div className="mt-2 flex items-center gap-2">
         {trend > 0 && (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-600">
+          <span
+            className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-medium ${
+              title === "Rejected"
+                ? "bg-[#F8FAFC] text-[#6B7280]"
+                : "bg-emerald-50 text-emerald-600"
+            }`}
+          >
             <ArrowUp size={12} />+{trend} this month
           </span>
         )}

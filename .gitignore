@@ -7,4 +7,8 @@ backend/.env
 uploads/
 backend/uploads/
 
+docs/
+docs\ai-mentor-phase-2.md
+
+
 dist/

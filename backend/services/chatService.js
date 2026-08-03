@@ -4,26 +4,50 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 });
 
-const askCareerMentor = async (roadmap, question) => {
+// Builds one structured prompt from the roadmap + recent chat history,
+// so the AI Mentor answers with real context instead of generic advice.
+const buildPrompt = (roadmap, recentChats, question) => {
 
-  const prompt = `
-You are CareerPilot AI.
+  const roadmapData = roadmap.roadmap;
+  const currentWeek = roadmapData?.roadmap?.[0];
 
-The student already has this career roadmap:
+  const chatHistoryText = recentChats.length
+    ? recentChats.map((chat) => `Q: ${chat.question}\nA: ${chat.answer}`).join("\n\n")
+    : "No previous conversation yet.";
 
-${JSON.stringify(roadmap, null, 2)}
+  return `
+You are CareerPilot AI Mentor, a friendly and knowledgeable career guide.
 
-Student Question:
+User Information
+Target Role: ${roadmap.targetRole}
+Dream Company: ${roadmap.dreamCompany || "Not specified"}
+Experience: ${roadmap.experience}
+
+Candidate Background:
+${roadmapData?.candidateSummary || "Not available"}
+
+Current Roadmap:
+Week ${currentWeek?.week || 1} - ${currentWeek?.title || "Getting Started"}
+${currentWeek?.objective || ""}
+
+Recent Chat History:
+${chatHistoryText}
+
+User Question:
 ${question}
 
 Instructions:
-
-- Answer only based on the roadmap whenever possible.
-- Give practical and beginner-friendly guidance.
+- Use the information above to give personalized, relevant advice.
+- Keep the tone encouraging and beginner-friendly.
 - Keep the answer clear and concise.
-- If the student asks about learning resources, suggest relevant ones.
-- If the student asks for motivation, encourage them.
+- If the question relates to the current roadmap week, connect your answer to it.
+- If the question is unrelated to the roadmap, just answer it directly.
 `;
+};
+
+const askCareerMentor = async (roadmap, recentChats, question) => {
+
+  const prompt = buildPrompt(roadmap, recentChats, question);
 
   const completion = await groq.chat.completions.create({
     model: "llama-3.1-8b-instant",
