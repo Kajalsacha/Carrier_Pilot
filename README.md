@@ -1,6 +1,39 @@
 # 🚀 CareerPilot
 
-CareerPilot is a full-stack AI-powered MERN application that helps students and job seekers manage their job search efficiently. It allows users to track job applications, upload resumes, analyze resumes using AI, generate personalized learning roadmaps, and visualize application progress through analytics.
+CareerPilot is a full-stack, AI-powered MERN application that helps job seekers manage their entire job search in one place — tracking applications, generating an AI-personalized learning roadmap, analyzing progress, and getting context-aware career guidance from an AI mentor that actually knows what roadmap week you're on.
+
+Built as a portfolio project to demonstrate practical full-stack + AI-integration skills (React, Node/Express, MongoDB, and the Groq LLM API) rather than as production/enterprise software.
+
+---
+
+## 📸 Screenshots
+
+**Login**
+![Login](docs/screenshots/01-login.png)
+
+**Register**
+![Register](docs/screenshots/02-register.png)
+
+**Dashboard**
+![Dashboard](docs/screenshots/03-dashboard.png)
+
+**Applications**
+![Applications](docs/screenshots/04-applications.png)
+
+**Analytics**
+![Analytics](docs/screenshots/05-analytics.png)
+
+**AI Roadmaps**
+![AI Roadmaps](docs/screenshots/06-roadmaps.png)
+
+**Roadmap Progress**
+![Roadmap Progress](docs/screenshots/07-roadmap-progress.png)
+
+**AI Mentor**
+![AI Mentor](docs/screenshots/08-ai-mentor.png)
+
+**Profile**
+![Profile](docs/screenshots/09-profile.png)
 
 ---
 
@@ -8,59 +41,53 @@ CareerPilot is a full-stack AI-powered MERN application that helps students and 
 
 ## 🔐 Authentication
 
-- User Registration
-- User Login
-- JWT Authentication
+- User Registration & Login
+- JWT-based Authentication
 - Protected Routes
 - User-specific Data Isolation
 
----
-
 ## 📋 Job Application Management
 
-- Add New Application
-- Delete Application
-- View All Applications
-- Search Applications
-- Filter Applications
-- Update Application Status
+- Add / Update / Delete Applications
+- Search & Filter Applications
+- Update Application Status (Applied, OA, Interview, Offer, Rejected)
+- Resume Upload per Application (PDF)
 - View Uploaded Resume
 - Professional Status Badges
-- Resume Upload (PDF)
-
----
 
 ## 📄 Resume Management
 
-- Upload Resume (PDF)
-- Replace Existing Resume
-- Resume Text Extraction
-- PDF Parsing using pdf-parse
+- Upload / Replace Resume (PDF)
+- Resume Text Extraction via `pdf-parse`
 
----
+## 🤖 AI Features (Groq LLM)
 
-## 🤖 AI Features
-
-- ATS Resume Analysis
-- AI Resume Feedback
-- Skill Gap Detection
-- Resume Improvement Suggestions
-- Career Advice
-- AI Learning Roadmap Generation
-- Download AI Roadmap as PDF
-
----
+- **ATS Resume Analysis** — score, feedback, skill-gap detection, improvement suggestions
+- **AI Roadmap Generation** — a personalized, week-by-week learning roadmap for a target role, company, and duration
+- **AI Weekly Plan Generation** — detailed topics/resources generated per week as you progress
+- **Download Roadmap as PDF**
+- **AI Mentor Chat** — a context-aware chat assistant that reads your latest roadmap and recent conversation history before answering, so its advice references your actual target role, dream company, and current week instead of generic tips
 
 ## 📊 Dashboard & Analytics
 
-- Total Applications
-- Applied Count
-- OA Count
-- Interview Count
-- Offer Count
-- Rejected Count
-- Interactive Pie Chart
-- Dashboard Statistics Cards
+- Total Applications, Applied, OA, Interview, Offer, Rejected counts with month-over-month trend chips
+- Application Status breakdown (donut chart)
+- Applications Over Time (bar chart)
+- Interview / Offer / Rejection rate cards
+- Recent Applications table
+
+## 🧭 Roadmap Progress
+
+- Overall progress %, completed weeks, current week/topic, and total roadmap duration
+- Week-by-week timeline with per-week status
+- Weekly checklist of topics with progress tracking
+- AI Mentor tip card tailored to the roadmap
+- Generate the next week's plan on demand
+
+## 👤 Profile
+
+- View account details (name, email, member since)
+- Logout
 
 ---
 
@@ -68,28 +95,25 @@ CareerPilot is a full-stack AI-powered MERN application that helps students and 
 
 ## Frontend
 
-- React.js
-- Vite
-- React Router DOM
+- React 19 + Vite
+- React Router DOM v7
+- Tailwind CSS v4
+- Lucide React (icons)
+- React Hook Form + Zod (form validation)
 - Axios
-- Tailwind CSS
-- Lucide React
+- Recharts (charts)
 - React Hot Toast
-- Recharts
-
----
+- date-fns
 
 ## Backend
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
-- bcrypt.js
-- Multer
-- pdf-parse
-- Groq AI API
+- Node.js + Express 5
+- MongoDB + Mongoose
+- JWT Authentication (`jsonwebtoken`) + `bcryptjs`
+- Multer (file uploads)
+- `pdf-parse` (resume text extraction)
+- `pdfkit` (roadmap PDF export)
+- Groq SDK (`llama-3.1-8b-instant` for AI Mentor chat, `llama-3.3-70b-versatile` for roadmap/ATS/week-plan generation)
 
 ---
 
@@ -97,41 +121,46 @@ CareerPilot is a full-stack AI-powered MERN application that helps students and 
 
 ```text
 CareerPilot/
-
 ├── backend/
 │   ├── config/
-│   ├── controllers/
+│   ├── controllers/       # auth, application, ai, analytics, chat, week
 │   ├── middleware/
-│   ├── models/
+│   ├── models/            # User, Application, Roadmap, Chat
 │   ├── routes/
+│   ├── services/          # chatService (AI Mentor prompt building)
 │   ├── uploads/
 │   ├── utils/
 │   └── server.js
 │
 ├── frontend/
-│   ├── src/
-│   │
-│   ├── components/
-│   │   ├── applications/
-│   │   ├── dashboard/
-│   │   └── layout/
-│   │
-│   ├── pages/
-│   │   ├── Login/
-│   │   ├── Register/
-│   │   ├── Dashboard/
-│   │   ├── Applications/
-│   │   ├── Analytics/
-│   │   ├── Roadmaps/
-│   │   ├── Chat/
-│   │   └── Profile/
-│   │
-│   ├── services/
-│   ├── context/
-│   ├── layouts/
-│   ├── routes/
-│   ├── App.jsx
-│   └── main.jsx
+│   └── src/
+│       ├── components/
+│       │   ├── applications/
+│       │   ├── analytics/
+│       │   ├── auth/
+│       │   ├── charts/
+│       │   ├── chat/
+│       │   ├── common/          # Button, Card, Input, Modal, Badge, Loader, ActionMenu...
+│       │   ├── dashboard/
+│       │   ├── layout/          # Sidebar, Navbar
+│       │   ├── roadmapProgress/
+│       │   └── roadmaps/
+│       ├── pages/
+│       │   ├── Login/
+│       │   ├── Register/
+│       │   ├── Dashboard/
+│       │   ├── Applications/
+│       │   ├── Analytics/
+│       │   ├── Roadmaps/
+│       │   ├── RoadmapProgress/
+│       │   ├── Chat/
+│       │   └── Profile/
+│       ├── services/            # API layer (axios calls per domain)
+│       ├── context/              # AuthContext
+│       ├── layouts/
+│       ├── routes/
+│       ├── App.jsx
+│       └── main.jsx
 │
 └── README.md
 ```
@@ -141,54 +170,47 @@ CareerPilot/
 # 📸 Current Workflow
 
 ```text
-Register
+Register / Login
       │
       ▼
-Login
-      │
-      ▼
-Dashboard
-      │
-      ▼
-Track Applications
-      │
-      ├──────────────┐
-      ▼              ▼
-Upload Resume    Update Status
-      │              │
-      └──────┬───────┘
-             ▼
-ATS Analysis
-             ▼
-Generate AI Roadmap
-             ▼
-Download Roadmap PDF
+   Dashboard  ──────────────┐
+      │                     │
+      ▼                     ▼
+Track Applications   Generate AI Roadmap
+      │                     │
+      ├──────────────┐      ▼
+      ▼              ▼   Roadmap Progress
+Upload Resume   Update Status   │
+      │              │          ▼
+      └──────┬───────┘   Generate Weekly Plan
+             ▼                  │
+       ATS Analysis             ▼
+                          Ask AI Mentor
+                     (context-aware, knows your
+                      roadmap + chat history)
 ```
 
 ---
 
 # 🎯 Project Goals
 
-CareerPilot aims to become a complete AI-powered career assistant that helps users:
+CareerPilot aims to be a complete AI-powered career assistant that helps users:
 
-- Track job applications
-- Organize recruitment progress
-- Upload and manage resumes
-- Improve ATS compatibility
+- Track job applications end-to-end
+- Improve resume ATS compatibility
 - Identify missing skills
-- Generate personalized learning roadmaps
+- Follow a personalized, structured learning roadmap
 - Visualize application progress
-- Prepare for technical interviews
+- Get contextual, ongoing guidance from an AI mentor — not just one-off answers
 
 ---
 
-# 🚧 Upcoming Features
+# 🚧 Possible Next Steps
 
-- AI Mentor Chat
-- Profile Management
-- Responsive UI Improvements
-- Final UI Polish
-- Project Deployment
+- Deploy to a live environment (Vercel/Render)
+- Richer roadmap cards on the AI Roadmaps list (progress bar, created date)
+- Email notifications for application follow-ups
+- Automated tests
 
 ---
 
@@ -198,7 +220,6 @@ CareerPilot aims to become a complete AI-powered career assistant that helps use
 
 B.Tech CSE (AI) | MERN Stack Developer
 
-
 ---
 
 # 📌 Project Status
@@ -206,49 +227,22 @@ B.Tech CSE (AI) | MERN Stack Developer
 ## Backend
 
 ✅ Authentication
-
 ✅ Applications CRUD
-
 ✅ Resume Upload & Replace
-
 ✅ Resume Parsing
-
 ✅ ATS Analysis
-
-✅ AI Roadmap Generation
-
+✅ AI Roadmap Generation + Weekly Plans
 ✅ Roadmap PDF Export
-
 ✅ Analytics APIs
-
----
+✅ AI Mentor Chat (context-aware, backed by roadmap + chat history)
 
 ## Frontend
 
 ✅ Authentication
-
 ✅ Dashboard
-
 ✅ Analytics
-
-✅ Applications Module
-
-- Add Application
-- Delete Application
-- Search
-- Filter
-- Update Status
-- View Resume
-- Professional Status Badges
-
----
-
-## In Progress
-
-- AI Roadmaps UI
-- AI Mentor Chat
-- Profile Page
-- Responsive Design
-- Final UI Polish
-
----
+✅ Applications Module (add, delete, search, filter, status update, resume view)
+✅ AI Roadmaps + Roadmap Progress page
+✅ AI Mentor Chat UI (with quick-action prompts)
+✅ Profile Page
+✅ Responsive layout with fixed sidebar / sticky navbar
