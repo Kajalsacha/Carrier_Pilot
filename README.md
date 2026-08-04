@@ -8,32 +8,23 @@ Built as a portfolio project to demonstrate practical full-stack + AI-integratio
 
 ## 📸 Screenshots
 
-**Login**
-![Login](docs/screenshots/01-login.png)
+<table>
 
-**Register**
-![Register](docs/screenshots/02-register.png)
-
-**Dashboard**
-![Dashboard](docs/screenshots/03-dashboard.png)
-
-**Applications**
-![Applications](docs/screenshots/04-applications.png)
-
-**Analytics**
-![Analytics](docs/screenshots/05-analytics.png)
-
-**AI Roadmaps**
-![AI Roadmaps](docs/screenshots/06-roadmaps.png)
-
-**Roadmap Progress**
-![Roadmap Progress](docs/screenshots/07-roadmap-progress.png)
-
-**AI Mentor**
-![AI Mentor](docs/screenshots/08-ai-mentor.png)
-
-**Profile**
-![Profile](docs/screenshots/09-profile.png)
+<tr>
+<td align="center"><b>Dashboard</b><br><img src="docs/screenshots/03-dashboard.png" width="280"/></td>
+<td align="center"><b>Applications</b><br><img src="docs/screenshots/04-applications.png" width="280"/></td>
+<td align="center"><b>Analytics</b><br><img src="docs/screenshots/05-analytics.png" width="280"/></td>
+</tr>
+<tr>
+<td align="center"><b>AI Roadmaps</b><br><img src="docs/screenshots/06-roadmaps.png" width="280"/></td>
+<td align="center"><b>Roadmap Progress</b><br><img src="docs/screenshots/07-roadmap-progress.png" width="280"/></td>
+<td align="center"><b>AI Mentor</b><br><img src="docs/screenshots/08-ai-mentor.png" width="280"/></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</table>
 
 ---
 
